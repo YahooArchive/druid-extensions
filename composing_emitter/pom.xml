@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.yahoo.druid</groupId>
+    <artifactId>druid_extensions</artifactId>
+    <version>0.0.1</version>
+  </parent>
+
+  <artifactId>composing-emitter</artifactId>
+  <description>Druid emitter extension to support multiple emitters together</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.druid</groupId>
+      <artifactId>druid-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.metamx</groupId>
+      <artifactId>emitter</artifactId>
+      <version>0.3.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
