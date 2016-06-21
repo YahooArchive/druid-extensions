@@ -23,11 +23,12 @@
   <parent>
     <groupId>com.yahoo.druid</groupId>
     <artifactId>druid_extensions</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
   </parent>
 
   <artifactId>metric-collector</artifactId>
   <name>metric-collector</name>
+  <version>0.0.2</version>
   <description>Provides extension for another druid node type to consume druid metrics</description>
 
   <dependencies>
