@@ -10,7 +10,7 @@ Composing Emitter
 This extension adds a "composing" emitter to Druid's set of emitters.  This allows you to have multiple emitters
 configured at the same time.
 
-[Read more in the extension's README](./composing_emitter/README.md)
+This extension moved to the [druid.io](https://github.com/druid-io/druid/)
 
 Metric Collector
 ===============

@@ -25,7 +25,6 @@
 
   <modules>
     <module>metric_collector</module>
-    <module>composing_emitter</module>
     <module>static_ui</module>
   </modules>
 
@@ -40,16 +39,6 @@
         <artifactId>emitter</artifactId>
         <version>0.3.0</version>
         <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.metamx</groupId>
-        <artifactId>java-util</artifactId>
-        <version>0.26.15</version>
-      </dependency>
-      <dependency>
-        <groupId>io.druid</groupId>
-        <artifactId>druid-api</artifactId>
-        <version>0.3.5</version>
       </dependency>
       <dependency>
         <groupId>io.druid</groupId>
