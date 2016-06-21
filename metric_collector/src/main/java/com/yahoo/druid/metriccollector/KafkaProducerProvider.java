@@ -19,19 +19,21 @@ package com.yahoo.druid.metriccollector;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.metamx.common.logger.Logger;
-import kafka.javaapi.producer.Producer;
-import kafka.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerConfig;
 
 import java.util.Properties;
 
 public class KafkaProducerProvider implements Provider<Producer<String, String>>
 {
   private static final Logger log = new Logger(KafkaProducerProvider.class);
-  
+
   private final MetricCollectorConfig config;
 
   @Inject
-  public KafkaProducerProvider(MetricCollectorConfig config) {
+  public KafkaProducerProvider(MetricCollectorConfig config)
+  {
     this.config = config;
   }
 
@@ -39,15 +41,13 @@ public class KafkaProducerProvider implements Provider<Producer<String, String>>
   public Producer<String, String> get()
   {
     Properties props = new Properties();
-    props.put("request.required.acks", "1");
-    props.put("producer.type", "async");
+    props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServerConfig());
 
     props.putAll(config.getKafkaProducerConfig());
-
-    props.put("serializer.class", "kafka.serializer.StringEncoder");
+    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+    props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
     log.info("Creating kafka producer with properties: %s", props);
 
-    return new Producer<String, String>(new ProducerConfig(props));
+    return new KafkaProducer<>(props);
   }
-
 }

@@ -18,20 +18,27 @@ package com.yahoo.druid.metriccollector;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 public class MetricCollectorConfig
 {
+  private final static long DEFAULT_LOG_FREQUENCY = 60 * 1000; // 1 MINUTE
+
   @JsonProperty
   @NotNull
-  private Map<String,String> kafkaProducerConfig;
+  private Map<String, String> kafkaProducerConfig;
 
   @JsonProperty
   @NotNull
   private String kafkaTopicPrefix;
 
-  public Map<String,String> getKafkaProducerConfig()
+  @JsonProperty
+  @Min(1)
+  private long logFrequency = DEFAULT_LOG_FREQUENCY;
+
+  public Map<String, String> getKafkaProducerConfig()
   {
     return kafkaProducerConfig;
   }
@@ -39,5 +46,19 @@ public class MetricCollectorConfig
   public String getKafkaTopicPrefix()
   {
     return kafkaTopicPrefix;
+  }
+
+  public long getLogFrequency()
+  {
+    return logFrequency;
+  }
+
+  public String getBootstrapServerConfig()
+  {
+    String bootstrapServerConfig = kafkaProducerConfig.get("bootstrap.servers");
+    if (bootstrapServerConfig != null) {
+      return bootstrapServerConfig;
+    }
+    throw new IllegalArgumentException("Please provide kafka bootstrap server config");
   }
 }

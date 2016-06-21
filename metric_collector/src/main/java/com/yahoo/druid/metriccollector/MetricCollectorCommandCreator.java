@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.yahoo.druid.metriccollector;
 
-import io.airlift.command.Cli.CliBuilder;
+import com.yahoo.druid.metriccollector.CliMetricCollector;
+import io.airlift.airline.Cli;
 import io.druid.cli.CliCommandCreator;
 
 public class MetricCollectorCommandCreator implements CliCommandCreator
 {
   @Override
-  public void addCommands(CliBuilder builder)
+  public void addCommands(Cli.CliBuilder builder)
   {
     builder.withGroup("server")
-      .withCommand(CliMetricCollector.class);
+           .withCommand(CliMetricCollector.class);
   }
 }

@@ -29,7 +29,7 @@
   </modules>
 
   <properties>
-    <druid.version>0.7.1</druid.version>
+    <druid.version>0.9.0</druid.version>
   </properties>
 
   <dependencyManagement>
