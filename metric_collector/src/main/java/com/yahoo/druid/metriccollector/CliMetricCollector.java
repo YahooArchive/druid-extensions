@@ -19,19 +19,23 @@ package com.yahoo.druid.metriccollector;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Binder;
 import com.google.inject.Module;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 import com.metamx.common.logger.Logger;
 import com.yahoo.druid.metriccollector.annotations.MetricCollector;
-import io.airlift.command.Command;
+import io.airlift.airline.Command;
 import io.druid.cli.QueryJettyServerInitializer;
 import io.druid.cli.ServerRunnable;
 import io.druid.guice.Jerseys;
 import io.druid.guice.JsonConfigProvider;
 import io.druid.guice.LazySingleton;
 import io.druid.guice.LifecycleModule;
+import io.druid.guice.ManageLifecycle;
 import io.druid.server.initialization.jetty.JettyServerInitializer;
-import kafka.javaapi.producer.Producer;
+import io.druid.server.initialization.jetty.ServletFilterHolder;
+import org.apache.kafka.clients.producer.Producer;
 import org.eclipse.jetty.server.Server;
 
 import java.util.List;
@@ -45,6 +49,7 @@ import java.util.List;
 public class CliMetricCollector extends ServerRunnable
 {
   private static final Logger log = new Logger(CliMetricCollector.class);
+  public static final String LISTEN_PATH = "/druid/metricCollector/v1/";
 
   public CliMetricCollector()
   {
@@ -64,13 +69,22 @@ public class CliMetricCollector extends ServerRunnable
             binder.bindConstant().annotatedWith(Names.named("servicePort")).to(4080);
             JsonConfigProvider.bind(binder, "druid.metricCollector", MetricCollectorConfig.class);
             binder.bind(JettyServerInitializer.class).to(QueryJettyServerInitializer.class).in(LazySingleton.class);
-            binder.bind(new TypeLiteral<Producer<String,String>>(){})
-              .annotatedWith(MetricCollector.class)
-              .toProvider(KafkaProducerProvider.class).in(LazySingleton.class);
-
+            binder.bind(MetricCollectorResource.class).in(ManageLifecycle.class);
+            binder.bind(
+                new TypeLiteral<Producer<String, String>>()
+                {
+                }
+            )
+                  .annotatedWith(MetricCollector.class)
+                  .toProvider(KafkaProducerProvider.class).in(Singleton.class);
             Jerseys.addResource(binder, MetricCollectorResource.class);
             LifecycleModule.register(binder, MetricCollectorResource.class);
             LifecycleModule.register(binder, Server.class);
+
+            Multibinder.newSetBinder(binder, ServletFilterHolder.class)
+                       .addBinding()
+                       .to(QoSServletFilterHolder.class)
+                       .in(Singleton.class);
           }
         }
     );

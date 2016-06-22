@@ -21,16 +21,15 @@
   <groupId>com.yahoo.druid</groupId>
   <artifactId>druid_extensions</artifactId>
   <packaging>pom</packaging>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
 
   <modules>
     <module>metric_collector</module>
-    <module>composing_emitter</module>
     <module>static_ui</module>
   </modules>
 
   <properties>
-    <druid.version>0.7.1</druid.version>
+    <druid.version>0.9.0</druid.version>
   </properties>
 
   <dependencyManagement>
@@ -40,16 +39,6 @@
         <artifactId>emitter</artifactId>
         <version>0.3.0</version>
         <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.metamx</groupId>
-        <artifactId>java-util</artifactId>
-        <version>0.26.15</version>
-      </dependency>
-      <dependency>
-        <groupId>io.druid</groupId>
-        <artifactId>druid-api</artifactId>
-        <version>0.3.5</version>
       </dependency>
       <dependency>
         <groupId>io.druid</groupId>
@@ -98,6 +87,14 @@
       </extension>
     </extensions>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
