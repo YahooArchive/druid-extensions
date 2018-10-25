@@ -1,3 +1,5 @@
+**Please Note:** This repo has been archived and is no longer active. It is here for historical purposes only and likely contains security vulnerabilities. Use at your own risk!
+
 druid_extensions
 =============
 
